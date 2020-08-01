@@ -94,11 +94,3 @@ def message():
     except AttributeError:
         pass
     emit('refresh', {'data': _gravity})
-
-
-if __name__ == '__main__':
-    socketio.run(
-        app,
-        host=os.environ.get('BIND_HOST', "0.0.0.0"),
-        port=os.environ.get('BIND_HOST', 80),
-    )
