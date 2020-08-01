@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '3.6', '3.7', '3.8' ]
+        python-version: [ '3.6', '3.7']
     steps:
     - uses: actions/checkout@v1
     - name: Setup python
@@ -16,13 +16,17 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         architecture: x64
+    - name: Get short Python version
+      id: full-python-version
+      shell: bash
+      run: echo ::set-output name=version::$(python -c "import sys; print(f'py{sys.version_info.major}{sys.version_info.minor}')")
     - name: install pre-reqs
-      run: sudo apt-get update && pip install -r requirements-dev.txt
-    - name: isort
-      run: isort -c -rc --skip app/main/__init__.py app -sp .
-    - name: pylint
-      run: pylint --rcfile .pylintrc -r n app
-    - name: set pythonpath
-      run: echo "::set-env name=PYTHONPATH::$(pwd)"
-    - name: pytest
-      run: py.test --cov-config .coveragerc --cov app --cov-report term-missing --cov-report xml --junitxml junit.xml tests
+      run: pip install poetry pre-commit
+    - name: lint
+      run: pre-commit run --all-files
+    - name: Configure poetry
+      run: poetry config virtualenvs.in-project true
+    - name: Install dependencies
+      run: poetry install
+    - name: Run tox
+      run: poetry run tox -e ${{ steps.full-python-version.outputs.version }}
