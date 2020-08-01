@@ -1,0 +1,30 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+{{ super() }}
+    <script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+    var socket = io.connect('http://' + document.domain + ':' + location.port + '/');
+    var start_time;
+    window.setInterval(function() {
+        start_time = (new Date).getTime();
+        socket.emit('refresh');
+    }, 2000);
+    socket.on('refresh', function(msg) {
+        document.getElementById("log_data").innerHTML = msg.data;
+    });
+});
+    </script>
+{% endblock %}
+
+{% block body %}
+<!-- Build a custom look here that all pages can inherit. -->
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    {% block content %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}
