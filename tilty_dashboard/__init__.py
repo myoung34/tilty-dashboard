@@ -42,7 +42,6 @@ def init_webapp(config, test=False):
     else:
         _db_uri = config['webapp']['database_uri']
         app.config['SQLALCHEMY_DATABASE_URI'] = _db_uri
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'abc123')

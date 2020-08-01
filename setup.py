@@ -26,11 +26,14 @@ setup(
         'Flask',
         'Flask-Bootstrap',
         'Flask-Cors',
-        'Flask-SQLALchemy',
+        'Flask-SQLAlchemy',
+        'Flask-SocketIO',
         'Flask-Script',
         'backoff',
         'configobj',
         'gunicorn',
+        'Werkzeug',
+        'eventlet',
     ],
     entry_points={
         'console_scripts': [
