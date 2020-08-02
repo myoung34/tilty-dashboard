@@ -1,27 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-
 from setuptools import find_packages, setup
 
-README = None
-with open(os.path.abspath('README.md')) as fh:
-    README = fh.read()
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
     name='tilty_dashboard',
-    version='0.0.1',
-    description=README,
+    description='A live dashboard for the tilty based on Flask-SocketIO',  # noqa
     author='Marcus Young',
     author_email='3vilpenguin@gmail.com',
-    packages=find_packages(),
-    zip_safe=False,
-    include_package_data=True,
-    package_data={
-       # If any package contains *.txt or *.rst files, include them:
-       "": ["*.html"],
-    },
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    version='0.0.1',
+    packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Flask',
         'Flask-Bootstrap',
