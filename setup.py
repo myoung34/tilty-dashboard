@@ -27,11 +27,5 @@ setup(
         'gunicorn',
         'Werkzeug==0.15.3',
         'eventlet',
-    ],
-    entry_points={
-        'console_scripts': [
-            'tilty_dashboard=tilty_dashboard.controller:main',
-            'tilty_dashboard-worker=tilty_dashboard.worker:main',
-        ],
-    }
+    ]
 )

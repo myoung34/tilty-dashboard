@@ -15,7 +15,7 @@ def app(request):
             'database_uri': 'sqlite://',
         }
     }
-    app = init_webapp(config, test=True)
+    app = init_webapp(config)
     ctx = app.app_context()
     ctx.push()
 

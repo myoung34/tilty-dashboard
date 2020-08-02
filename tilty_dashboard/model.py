@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Model definitions """
 
-import os
-
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, DateTime, Integer, String
 
@@ -18,13 +16,3 @@ class Tilt(db.Model):  # pylint:disable=too-few-public-methods
     color = Column(String(16))
     mac = Column(String(17))
     timestamp = Column(DateTime(timezone=True))
-
-    def __repr__(self):
-        return '<Tilty %r @ %r>' % (self.gravity, self.temp)
-
-
-def make_conn_str():
-    """Make an local database file on disk."""
-    return 'sqlite:///{cwd}/database.db'.format(
-        cwd=os.path.abspath(os.getcwd())
-    )
