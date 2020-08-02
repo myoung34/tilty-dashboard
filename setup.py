@@ -32,7 +32,7 @@ setup(
         'backoff',
         'configobj',
         'gunicorn',
-        'Werkzeug==0.16.0',
+        'Werkzeug==0.15.3',
         'eventlet',
     ],
     entry_points={
