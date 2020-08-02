@@ -1,6 +1,8 @@
 Tilty Dashboard
 ===============
 
+[![Coverage Status](https://coveralls.io/repos/github/myoung34/tilty-dashboard/badge.svg)](https://coveralls.io/github/myoung34/tilty-dashboard)
+[![PyPI version](https://img.shields.io/pypi/v/tilty-dashboard.svg)](https://pypi.python.org/pypi/Tilty/)
 
 This is a minimalistic websocket based dashboard for the Tilt hydrometer.
 
