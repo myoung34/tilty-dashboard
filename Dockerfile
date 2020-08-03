@@ -7,6 +7,7 @@ RUN apk add -U --no-cache python3 py3-pip python3-dev \
   && apk del .build-deps \
   && rm -rf /var/cache/apk/*
 COPY tilty_dashboard /app/tilty_dashboard
+COPY config /app/config
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
