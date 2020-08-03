@@ -30,7 +30,7 @@
           }, 2000);
           socket.on('refresh', function(msg) {
               document.getElementById("log-color").innerHTML = msg.data.color + '(' + msg.data.mac + ')';
-              document.getElementById("log-gravity").innerHTML = msg.data.gravity / 1000;
+              document.getElementById("log-gravity").innerHTML = msg.data.gravity;
               document.getElementById("log-temp").innerHTML = msg.data.temp + '&deg;';
               document.getElementById("log-timestamp").innerHTML = 'Last updated: ' + msg.data.timestamp;
           });

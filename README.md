@@ -8,6 +8,8 @@ This is a minimalistic websocket based dashboard for the Tilt hydrometer.
 
 It's fed by sqlite via [tilty](https://github.com/myoung34/tilty)
 
+![](https://cdn.zappy.app/859c7a44c7cf2bc04e427b037c5c5372.png)
+
 ## Installation And Running ##
 
 ### Docker ###
@@ -43,3 +45,19 @@ $ cd /usr/local/lib/python3.7/dist-packages
 
 $ gunicorn --worker-class eventlet -w 1 -c /etc/tilty/gunicorn.py tilty_dashboard:app
 ```
+
+## Local Development ##
+
+Seed the database:
+
+```
+$ make seed
+```
+
+Run it in docker:
+
+```
+$ docker-compose up
+```
+
+Then just hit http://localhost:5000
