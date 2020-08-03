@@ -17,3 +17,9 @@ test:
 
 run:
 	docker-compose run monitor
+
+.PHONY: seed
+seed:
+	rm data/*.sqlite
+	sqlite3 data/tilt.sqlite ".read seed/create.sql"
+	bash seed/seed.sh
