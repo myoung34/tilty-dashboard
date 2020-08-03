@@ -2,6 +2,7 @@
 """ The main method, handles all initialization """
 import logging
 import os
+from datetime import datetime
 
 import sqlalchemy
 from flask import Flask, render_template
@@ -48,10 +49,24 @@ def index():
 @socketio.on('refresh')
 def refresh():
     """ todo """
-    _gravity = 'n/a'
     try:
         _data = Tilt.query.order_by(sqlalchemy.desc(Tilt.timestamp)).first()
-        _gravity = _data.gravity
+        emit('refresh', {
+            'data': {
+                'color': _data.color,
+                'gravity': _data.gravity,
+                'mac': _data.mac,
+                'temp': _data.temp,
+                'timestamp': _data.timestamp.isoformat(),
+            }
+        })
     except AttributeError:
-        pass
-    emit('refresh', {'data': _gravity})
+        emit('refresh', {
+            'data': {
+                'color': 'n/a',
+                'gravity': 0,
+                'mac': '',
+                'temp': 0,
+                'timestamp': datetime.now().isoformat(),
+            }
+        })

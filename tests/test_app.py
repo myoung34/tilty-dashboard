@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import uuid
+from datetime import datetime
 from unittest import mock
 
 from flask import url_for
@@ -21,7 +22,9 @@ def test_index(client):
     assert client.get(url_for('index')).status_code == 200
 
 
+@mock.patch('tilty_dashboard.datetime')
 def test_refresh_no_data(
+    mock_time,
     client,
     app,
 ):
@@ -34,7 +37,15 @@ def test_refresh_no_data(
     assert socketio_test_client.get_received() == [
         {
             'name': 'refresh',
-            'args': [{'data': 'n/a'}],
+            'args': [{
+                'data': {
+                    'color': 'n/a',
+                    'gravity': 0,
+                    'mac': '',
+                    'temp': 0,
+                    'timestamp': mock.ANY
+                }
+            }],
             'namespace': '/'
         }
     ]
@@ -44,6 +55,10 @@ def test_refresh_no_data(
 class mock_tilt_reading:
     def __init__(self):
         self.gravity = 1000
+        self.temp = 66
+        self.color = 'black'
+        self.mac = '00:11:22:33:44'
+        self.timestamp = datetime.strptime('20-08-03T07:56:18', '%y-%m-%dT%H:%M:%S')
 class mock_tilt_item:
     def __init__(self):
         return None
@@ -56,6 +71,7 @@ class mock_tilt_model:
     class query:
         def order_by(item):
             return mock_tilt_item
+
 
 @mock.patch(
     'tilty_dashboard.Tilt',
@@ -79,7 +95,15 @@ def test_refresh(
     assert socketio_test_client.get_received() == [
         {
             'name': 'refresh',
-            'args': [{'data': 1000}],
+            'args': [{
+                'data': {
+                    'color': 'black',
+                    'gravity': 1000,
+                    'mac': '00:11:22:33:44',
+                    'temp': 66,
+                    'timestamp': '2020-08-03T07:56:18',
+                }
+            }],
             'namespace': '/'
         }
     ]
