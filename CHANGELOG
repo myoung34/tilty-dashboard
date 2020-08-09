@@ -1,0 +1,33 @@
+## 1.0.0
+
+IMPROVEMENTS:
+
+ * Add support for multiple tilts
+
+## 0.0.4
+
+IMPROVEMENTS:
+
+* Update coverage to work on master, add seed/local info to README
+
+## 0.0.3
+
+IMPROVEMENTS:
+
+ *  (tag: 0.0.3) Fix setup.py to package templates, bump to 0.0.3
+ *  Add "make seed" target
+
+## 0.0.2
+
+IMPROVEMENTS:
+
+ * add all tilt_data and basic gauge to dashboard
+ * Python 3.8 wont work with werkzeug 0.15.3
+ * Refactor unused code, increase test coverage
+ * Fix hadolint DL3019
+ * Add claire back to docker release docker builds on release/deploy
+ * Add coveralls
+
+## 0.0.1
+
+Initial release
