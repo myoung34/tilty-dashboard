@@ -2,13 +2,13 @@
 """ The main method, handles all initialization """
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
-import sqlalchemy
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
+from sqlalchemy import and_
 from werkzeug.contrib.fixers import ProxyFix
 
 from tilty_dashboard.model import Tilt, db
@@ -49,24 +49,22 @@ def index():
 @socketio.on('refresh')
 def refresh():
     """ todo """
-    try:
-        _data = Tilt.query.order_by(sqlalchemy.desc(Tilt.timestamp)).first()
-        emit('refresh', {
-            'data': {
-                'color': _data.color,
-                'gravity': _data.gravity,
-                'mac': _data.mac,
-                'temp': _data.temp,
-                'timestamp': _data.timestamp.isoformat(),
-            }
-        })
-    except AttributeError:
-        emit('refresh', {
-            'data': {
-                'color': 'n/a',
-                'gravity': 0,
-                'mac': '',
-                'temp': 0,
-                'timestamp': datetime.now().isoformat(),
-            }
-        })
+
+    since = datetime.now() - timedelta(days=1)
+    last_pulse = db.session.query(  # pylint:disable=E1101
+        Tilt.color,
+        Tilt.gravity,
+        Tilt.temp,
+        Tilt.mac,
+        Tilt.timestamp,
+        db.func.max(Tilt.timestamp)  # pylint:disable=E1101
+    ).group_by(Tilt.mac).subquery()
+    _data = Tilt.query.join(
+        last_pulse,
+        and_(
+            Tilt.mac == last_pulse.c.mac,
+            Tilt.timestamp == last_pulse.c.timestamp
+        )
+    ).filter(Tilt.timestamp > since).all()
+    _tilt_data = [d.serialize() for d in _data]
+    emit('refresh', {'data': _tilt_data})
