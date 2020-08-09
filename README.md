@@ -8,7 +8,7 @@ This is a minimalistic websocket based dashboard for the Tilt hydrometer.
 
 It's fed by sqlite via [tilty](https://github.com/myoung34/tilty)
 
-![](https://cdn.zappy.app/859c7a44c7cf2bc04e427b037c5c5372.png)
+![](images/dash.gif)
 
 ## Installation And Running ##
 

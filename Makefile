@@ -13,10 +13,11 @@ bump_version:
 	rm pyproject.toml.bak setup.py.bak
 
 test:
-	tox
+	poetry run tox
 
 run:
-	docker-compose run monitor
+	docker-compose build
+	docker-compose up app
 
 .PHONY: seed
 seed:

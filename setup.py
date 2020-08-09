@@ -13,7 +13,7 @@ setup(
     author_email='3vilpenguin@gmail.com',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version='0.0.4',
+    version='1.0.0',
     package_data={
        "": ["*.html"],
     },

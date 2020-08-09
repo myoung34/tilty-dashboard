@@ -16,3 +16,14 @@ class Tilt(db.Model):  # pylint:disable=too-few-public-methods
     color = Column(String(16))
     mac = Column(String(17))
     timestamp = Column(DateTime(timezone=True))
+
+    def serialize(self):
+        """ Serializer method """
+        return {
+            "id": self.id,
+            "color": self.color,
+            "gravity": self.gravity,
+            "temp": self.temp,
+            "mac": self.mac,
+            "timestamp": self.timestamp.isoformat(),
+        }
