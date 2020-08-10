@@ -25,7 +25,7 @@ function get_color {
 
 calc() { awk "BEGIN{print $*}"; }
 
-for i in 11 22 33; do
+for i in 11 22 33 44 55 66 77; do
   # shellcheck disable=SC2034
   for j in {1..2}; do
     # shellcheck disable=SC2046

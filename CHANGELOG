@@ -1,3 +1,9 @@
+## 1.0.1
+
+IMPROVEMENTS:
+
+ * Move from css based gauges to gauge.js
+
 ## 1.0.0
 
 IMPROVEMENTS:
