@@ -22,6 +22,12 @@ def test_index(client):
     assert client.get(url_for('index')).status_code == 200
 
 
+def test_index(client):
+    """Test that the settings works."""
+
+    assert client.get(url_for('settings')).status_code == 200
+
+
 def test_refresh(
     app,
 ):

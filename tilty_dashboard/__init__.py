@@ -36,6 +36,12 @@ def init_webapp(config):
     return app
 
 
+@app.route('/settings')
+def settings():
+    """ Settings Page. """
+    return render_template('settings.html')
+
+
 @app.route('/')
 def index():
     """A landing page.
