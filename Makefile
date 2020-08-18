@@ -21,6 +21,7 @@ run:
 
 .PHONY: seed
 seed:
-	rm data/*.sqlite
+	rm data || :
+	mkdir data || :
 	sqlite3 data/tilt.sqlite ".read seed/create.sql"
 	bash seed/seed.sh
