@@ -28,6 +28,30 @@ def test_index(client):
     assert client.get(url_for('settings')).status_code == 200
 
 
+def test_save_settings(
+    app,
+):
+    test_client = app.test_client()
+    socketio_test_client = socketio.test_client(
+        app,
+        flask_test_client=test_client
+    )
+
+    assert socketio_test_client.is_connected()
+    assert test_client.get(url_for('index')).status_code == 200
+    socketio_test_client.emit(
+        'save settings',
+        {
+            'settings': {
+                'gravity_meas': 'Brix',
+                'gravity_offset': '',
+                'temp_meas': 'Fahrenheit',
+            }
+        }
+    )
+    assert socketio_test_client.get_received() == []
+
+
 def test_refresh(
     app,
 ):

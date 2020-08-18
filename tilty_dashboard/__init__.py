@@ -4,13 +4,14 @@ import logging
 import os
 from datetime import datetime, timedelta
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from sqlalchemy import and_
 from werkzeug.contrib.fixers import ProxyFix
 
+from flask_session import Session
 from tilty_dashboard.model import Tilt, db
 
 logging.basicConfig(level=logging.DEBUG)
@@ -18,7 +19,9 @@ log = logging.getLogger(__name__)
 
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+socketio = SocketIO(app, manage_session=False)
 
 
 def init_webapp(config):
@@ -36,10 +39,24 @@ def init_webapp(config):
     return app
 
 
-@app.route('/settings')
+@socketio.on('save settings')
+def save_settings(message):
+    """ Save the settings into the cookie """
+    session["settings"] = message['settings']
+
+
+@app.route('/settings', methods=['GET', 'POST'])
 def settings():
     """ Settings Page. """
-    return render_template('settings.html')
+    return render_template(
+        'settings.html',
+        gravity_meas=session.get('settings', {}).get('gravity_meas'),
+        gravity_offset=session.get('settings', {}).get(
+            'gravity_offset',
+            -0.001
+        ),
+        temp_meas=session.get('settings', {}).get('temp_meas'),
+    )
 
 
 @app.route('/')
@@ -49,12 +66,20 @@ def index():
     Nothing too interesting here.
 
     """
-    return render_template('index.html')
+    return render_template(
+        'index.html',
+        gravity_meas=session.get('settings', {}).get('gravity_meas'),
+        gravity_offset=session.get('settings', {}).get(
+            'gravity_offset',
+            -0.001
+        ),
+        temp_meas=session.get('settings', {}).get('temp_meas'),
+    )
 
 
 @socketio.on('refresh')
 def refresh():
-    """ todo """
+    """ Query The DB and refresh the socket """
 
     since = datetime.now() - timedelta(days=1)
     last_pulse = db.session.query(  # pylint:disable=E1101
