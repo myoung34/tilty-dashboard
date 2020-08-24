@@ -15,13 +15,14 @@ setup(
     long_description_content_type="text/markdown",
     version='1.1.0',
     package_data={
-       "": ["*.html"],
+       "": ["*.html", "*.png", "*.css"],
     },
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Flask',
         'Flask-Bootstrap',
         'Flask-Cors',
+        'flask-session',
         'Flask-SQLAlchemy',
         'Flask-SocketIO',
         'Flask-Script',
