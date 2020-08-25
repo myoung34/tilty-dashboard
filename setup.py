@@ -15,7 +15,7 @@ setup(
     long_description_content_type="text/markdown",
     version='1.1.1',
     package_data={
-       "": ["*.html", "*.png", "*.css"],
+       "": ["*.html", "*.png", "*.css", "*.js"],
     },
     packages=find_packages(exclude=['tests*']),
     install_requires=[
