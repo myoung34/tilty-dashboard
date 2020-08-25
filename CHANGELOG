@@ -1,8 +1,16 @@
-## 1.1.2
+## 1.1.3
 
 IMPROVEMENTS:
 
  * Add support for modifying tilt config: https://github.com/myoung34/tilty-dashboard/pull/6
+
+BUG FIXES:
+
+ * Fix setup.py packing to include static js assets
+
+## 1.1.2
+
+YANKED
 
 ## 1.1.1
 
