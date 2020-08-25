@@ -1,3 +1,9 @@
+## 1.1.2
+
+IMPROVEMENTS:
+
+ * Add support for modifying tilt config: https://github.com/myoung34/tilty-dashboard/pull/6
+
 ## 1.1.1
 
 BUG FIXES:
