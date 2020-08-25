@@ -22,10 +22,43 @@ def test_index(client):
     assert client.get(url_for('index')).status_code == 200
 
 
-def test_index(client):
-    """Test that the settings works."""
+def test_device_config(
+    client
+):
+    """Test that the device config works."""
 
-    assert client.get(url_for('settings')).status_code == 200
+    with mock.patch("builtins.open", mock.mock_open(read_data=b'data')) as mock_file:
+        assert client.get(url_for('device_config')).status_code == 200
+        assert mock_file.mock_calls[0] == mock.call('/etc/tilty/tilty.ini', 'r')
+
+
+def test_dashboard_settings(client):
+    """Test that the dashboard settings works."""
+
+    assert client.get(url_for('dashboard_settings')).status_code == 200
+
+
+def test_save_device_config(
+    app,
+):
+    with mock.patch("builtins.open", mock.mock_open(read_data=b'data')) as mock_file:
+        test_client = app.test_client()
+        socketio_test_client = socketio.test_client(
+            app,
+            flask_test_client=test_client
+        )
+
+        assert socketio_test_client.is_connected()
+        assert test_client.get(url_for('index')).status_code == 200
+        socketio_test_client.emit(
+            'save device config',
+            {
+                'data': {
+                    'config': 'foo',
+                }
+            }
+        )
+        assert socketio_test_client.get_received() == []
 
 
 def test_save_settings(
@@ -40,7 +73,7 @@ def test_save_settings(
     assert socketio_test_client.is_connected()
     assert test_client.get(url_for('index')).status_code == 200
     socketio_test_client.emit(
-        'save settings',
+        'save dashboard settings',
         {
             'settings': {
                 'gravity_meas': 'Brix',
