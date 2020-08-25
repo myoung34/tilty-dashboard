@@ -7,11 +7,11 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, session
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
+from flask_session import Session
 from flask_socketio import SocketIO, emit
 from sqlalchemy import and_
 from werkzeug.contrib.fixers import ProxyFix
 
-from flask_session import Session
 from tilty_dashboard.model import Tilt, db
 
 logging.basicConfig(level=logging.DEBUG)
@@ -30,6 +30,10 @@ def init_webapp(config):
     app.config['SQLALCHEMY_DATABASE_URI'] = config['webapp']['database_uri']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'abc123')
+    app.config['TILT_CONFIG'] = os.environ.get(
+        'TILT_CONFIG',
+        '/etc/tilty/tilty.ini'
+    )
     CORS(app, supports_credentials=True)
     Bootstrap(app)
     db.app = app
@@ -39,17 +43,37 @@ def init_webapp(config):
     return app
 
 
-@socketio.on('save settings')
-def save_settings(message):
+@socketio.on('save device config')
+def save_device_config(message):
+    """ Save the device config into the config file """
+    with open(app.config['TILT_CONFIG'], 'w') as file:
+        file.write(message['data']['config'])
+
+
+@app.route('/device_config', methods=['GET', 'POST'])
+def device_config():
+    """ Device Config Page. """
+    tilty_config = ""
+    with open(app.config['TILT_CONFIG'], 'r') as file:
+        tilty_config = file.read()
+
+    return render_template(
+        'device_config.html',
+        tilty_config=tilty_config,
+    )
+
+
+@socketio.on('save dashboard settings')
+def save_dashboard_settings(message):
     """ Save the settings into the cookie """
     session["settings"] = message['settings']
 
 
-@app.route('/settings', methods=['GET', 'POST'])
-def settings():
-    """ Settings Page. """
+@app.route('/dashboard_settings', methods=['GET', 'POST'])
+def dashboard_settings():
+    """ Dashboard Settings Page. """
     return render_template(
-        'settings.html',
+        'dashboard_settings.html',
         gravity_meas=session.get('settings', {}).get('gravity_meas'),
         gravity_offset=session.get('settings', {}).get(
             'gravity_offset',
