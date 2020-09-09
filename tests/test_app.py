@@ -106,3 +106,24 @@ def test_refresh(
             'namespace': '/'
         }
     ]
+
+def test_logs(
+    app,
+):
+    test_client = app.test_client()
+    socketio_test_client = socketio.test_client(
+        app,
+        flask_test_client=test_client
+    )
+
+    with mock.patch("builtins.open", mock.mock_open(read_data=b"data")) as mock_file:
+        assert socketio_test_client.is_connected()
+        assert test_client.get(url_for('logs')).status_code == 200
+        socketio_test_client.emit('logs')
+        assert socketio_test_client.get_received() == [
+            {
+                'name': 'logs',
+                'args': [{'data': b'data'}],
+                'namespace': '/'
+            }
+        ]
