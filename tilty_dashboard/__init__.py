@@ -7,11 +7,11 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, session
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
-from flask_session import Session
 from flask_socketio import SocketIO, emit
 from sqlalchemy import and_
 from werkzeug.contrib.fixers import ProxyFix
 
+from flask_session import Session
 from tilty_dashboard.model import Tilt, db
 
 logging.basicConfig(level=logging.DEBUG)
@@ -27,6 +27,7 @@ socketio = SocketIO(app, manage_session=False)
 def init_webapp(config):
     """ Initialize the web application. """
     app.wsgi_app = ProxyFix(app.wsgi_app)
+    app.config['LOG_FILE'] = os.environ.get('LOG_FILE', '/app/tilty.log')
     app.config['SQLALCHEMY_DATABASE_URI'] = config['webapp']['database_uri']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'abc123')
@@ -123,3 +124,18 @@ def refresh():
     ).filter(Tilt.timestamp > since).all()
     _tilt_data = [d.serialize() for d in _data]
     emit('refresh', {'data': _tilt_data})
+
+
+@app.route('/logs', methods=['GET'])
+def logs():
+    """ load the logs endpoint """
+    return render_template(
+        'logs.html',
+    )
+
+
+@socketio.on('logs')
+def render_logs():
+    """ Render the logs from the log file """
+    with open(app.config['LOG_FILE']) as f:
+        emit('logs', {'data': f.read()})
