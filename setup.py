@@ -26,6 +26,7 @@ setup(
         'Flask-SQLAlchemy',
         'Flask-SocketIO',
         'Flask-Script',
+        'Jinja2>=2.11.3',
         'backoff',
         'configobj',
         'gunicorn',
