@@ -1,3 +1,9 @@
+## 1.1.5
+
+SECURITY:
+
+ * Bump/pin Jinja2 for CVE-2020-28493
+
 ## 1.1.4
 
 IMPROVEMENTS:
