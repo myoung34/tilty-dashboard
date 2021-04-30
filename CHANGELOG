@@ -1,3 +1,9 @@
+## 1.1.6
+
+BUG FIXES:
+
+ * Fix gunicorn config for prod.config to reference correct sqlite file
+
 ## 1.1.5
 
 SECURITY:
