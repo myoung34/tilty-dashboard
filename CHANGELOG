@@ -1,3 +1,9 @@
+## 1.1.7
+
+SECURITY:
+
+ * Bump/pin eventlet for CVE-2021-21419
+
 ## 1.1.6
 
 BUG FIXES:
