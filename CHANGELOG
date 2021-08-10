@@ -1,3 +1,9 @@
+## 1.1.8
+
+SECURITY:
+
+ * Bump/pin urllib3 for CVE-2021-33503
+
 ## 1.1.7
 
 SECURITY:
