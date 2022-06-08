@@ -29,7 +29,7 @@ def test_device_config(
 
     with mock.patch("builtins.open", mock.mock_open(read_data=b'data')) as mock_file:
         assert client.get(url_for('device_config')).status_code == 200
-        assert mock_file.mock_calls[0] == mock.call('/etc/tilty/tilty.ini', 'r')
+        assert mock_file.mock_calls[0] == mock.call('/etc/tilty/tilty.ini', 'r', encoding='UTF-8')
 
 
 def test_dashboard_settings(client):

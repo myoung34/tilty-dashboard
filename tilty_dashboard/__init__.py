@@ -9,7 +9,7 @@ from flask_bootstrap import Bootstrap
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from sqlalchemy import and_
-from werkzeug.contrib.fixers import ProxyFix
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from flask_session import Session
 from tilty_dashboard.model import Tilt, db
@@ -47,7 +47,7 @@ def init_webapp(config):
 @socketio.on('save device config')
 def save_device_config(message):
     """ Save the device config into the config file """
-    with open(app.config['TILT_CONFIG'], 'w') as file:
+    with open(app.config['TILT_CONFIG'], 'w', encoding='UTF-8') as file:
         file.write(message['data']['config'])
 
 
@@ -55,7 +55,7 @@ def save_device_config(message):
 def device_config():
     """ Device Config Page. """
     tilty_config = ""
-    with open(app.config['TILT_CONFIG'], 'r') as file:
+    with open(app.config['TILT_CONFIG'], 'r', encoding='UTF-8') as file:
         tilty_config = file.read()
 
     return render_template(
@@ -137,5 +137,5 @@ def logs():
 @socketio.on('logs')
 def render_logs():
     """ Render the logs from the log file """
-    with open(app.config['LOG_FILE']) as f:
+    with open(app.config['LOG_FILE'], encoding='UTF-8') as f:
         emit('logs', {'data': f.read()})
