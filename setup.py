@@ -25,7 +25,7 @@ setup(
         'Flask-SQLAlchemy==2.4.4',
         'Werkzeug==2.1.2',
         'Flask-Bootstrap==3.3.7',
-        'Flask-Cors==3.0.8',
+        'Flask-Cors==3.0.9',
         'gunicorn==20.0.4',
         'configobj==5.0.6',
         'eventlet==0.31.0',
