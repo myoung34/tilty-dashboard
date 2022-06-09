@@ -19,18 +19,17 @@ setup(
     },
     packages=find_packages(exclude=['tests*']),
     install_requires=[
+        'Flask==2.1.0',
         'Jinja2==2.11.3',
-        'Flask-SocketIO==4.3.1',
+        'Flask-SocketIO==5.2.0',
         'Flask-SQLAlchemy==2.4.4',
-        'Werkzeug==0.15.3',
+        'Werkzeug==2.1.2',
         'Flask-Bootstrap==3.3.7',
-        'Flask-Cors==3.0.8',
+        'Flask-Cors==3.0.9',
         'gunicorn==20.0.4',
         'configobj==5.0.6',
-        'eventlet==0.31.0',
+        'eventlet==0.33.1',
         'flask-session==0.3.2',
         'urllib3==1.26.5',
-        'python-engineio==3.13.2',
-        'python-socketio==4.6.0',
     ]
 )
