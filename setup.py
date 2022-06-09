@@ -28,7 +28,7 @@ setup(
         'Flask-Cors==3.0.9',
         'gunicorn==20.0.4',
         'configobj==5.0.6',
-        'eventlet==0.31.0',
+        'eventlet==0.33.1',
         'flask-session==0.3.2',
         'urllib3==1.26.5',
     ]
