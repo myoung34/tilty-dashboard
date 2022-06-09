@@ -1,3 +1,20 @@
+## 1.2.0
+
+IMPROVEMENTS:
+
+ * bump eventlet to 0.33.1
+ * Add python 3.10
+ * Update python versions, bump dependencies
+ * Fix dep sprawl between poetry and setup.py. Causing https://github.com/miguelgrinberg/python-socketio/issues/578
+ * miguelgrinberg/python-socketio/issues/578
+ * Fix deprecation on using HEAD^2 for codeql
+ * Move git:// to https:// in pre-commit
+ * Bump codeql to v2
+
+SECURITY:
+
+ * Bump/pin flask-cors for CVE-2020-25032
+
 ## 1.1.8
 
 SECURITY:

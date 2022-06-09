@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tilty-dashboard"
-version = "1.1.7"
+version = "1.2.0"
 description = "A simple dashboard to display tilty data"
 authors = ["Marcus Young <myoung34@my.apsu.edu>"]
 license = "MIT"
