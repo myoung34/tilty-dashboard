@@ -23,7 +23,7 @@ setup(
         'Jinja2==2.11.3',
         'Flask-SocketIO==5.2.0',
         'Flask-SQLAlchemy==2.4.4',
-        'Werkzeug==2.1.2',
+        'Werkzeug==2.2.3',
         'Flask-Bootstrap==3.3.7',
         'Flask-Cors==3.0.9',
         'gunicorn==20.0.4',
